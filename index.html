@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CivicSense AI organizes civic complaints using AI-powered analysis.">
+    <title>CivicSense AI | Civic Intelligence</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">C</div>
+            <div>
+                <h2>CivicSense<span> AI</span></h2>
+                <p>CIVIC INTELLIGENCE</p>
+            </div>
+        </div>
+
+        <div class="nav-label">WORKSPACE</div>
+
+        <a class="nav-item active" href="#dashboard">▦ Dashboard</a>
+        <a class="nav-item" href="#report">＋ Report an Issue</a>
+        <a class="nav-item" href="#complaints">☷ Complaints</a>
+
+        <div class="sidebar-bottom">
+            <div class="system-status">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>System Ready</strong>
+                    <small>AI-assisted analysis</small>
+                </div>
+            </div>
+            <p class="sidebar-note">Building smarter communities through data and intelligence.</p>
+        </div>
+    </aside>
+
+    <main class="main-content" id="dashboard">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">CIVIC OPERATIONS / OVERVIEW</p>
+                <h1>Community Dashboard</h1>
+                <p class="subtitle">Understand local issues. Organize action. Track progress.</p>
+            </div>
+
+            <button class="primary-button" id="reportButton">
+                + New Complaint
+            </button>
+        </header>
+
+        <section class="notice">
+            <span class="notice-icon">✦</span>
+            <div>
+                <strong>AI-assisted civic intelligence</strong>
+                <p>Complaints are analyzed and organized for human review. Suggested priorities are preliminary, not official emergency classifications.</p>
+            </div>
+        </section>
+
+        <section class="stats-grid">
+            <article class="stat-card">
+                <div class="stat-heading">
+                    <span>Total Complaints</span>
+                    <span class="stat-icon purple">▤</span>
+                </div>
+                <h2 id="totalCount">0</h2>
+                <p>All recorded reports</p>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-heading">
+                    <span>New Reports</span>
+                    <span class="stat-icon blue">✳</span>
+                </div>
+                <h2 id="newCount">0</h2>
+                <p>Awaiting initial review</p>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-heading">
+                    <span>High Priority</span>
+                    <span class="stat-icon red">↑</span>
+                </div>
+                <h2 id="highCount">0</h2>
+                <p>Require prompt verification</p>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-heading">
+                    <span>Resolved</span>
+                    <span class="stat-icon green">✓</span>
+                </div>
+                <h2 id="resolvedCount">0</h2>
+                <p>Marked resolved by an operator</p>
+            </article>
+        </section>
+
+        <section class="content-grid">
+            <article class="panel chart-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Complaint Categories</h3>
+                        <p>Distribution across recorded reports</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </article>
+
+            <article class="panel insight-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>How CivicSense Works</h3>
+                        <p>From unstructured input to action</p>
+                    </div>
+                </div>
+
+                <div class="workflow-step">
+                    <span>01</span>
+                    <div>
+                        <strong>Understand</strong>
+                        <p>Extract complaint details with Gemini.</p>
+                    </div>
+                </div>
+
+                <div class="workflow-step">
+                    <span>02</span>
+                    <div>
+                        <strong>Assess</strong>
+                        <p>Apply transparent priority rules.</p>
+                    </div>
+                </div>
+
+                <div class="workflow-step">
+                    <span>03</span>
+                    <div>
+                        <strong>Recommend</strong>
+                        <p>Suggest next steps for human review.</p>
+                    </div>
+                </div>
+
+                <div class="workflow-step">
+                    <span>04</span>
+                    <div>
+                        <strong>Track</strong>
+                        <p>Record progress and status changes.</p>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section class="panel report-panel" id="report">
+            <div class="panel-heading">
+                <div>
+                    <h3>Report a Civic Issue</h3>
+                    <p>Describe the problem in your own words. AI will organize the information.</p>
+                </div>
+                <span class="ai-badge">✦ GEMINI AI</span>
+            </div>
+
+            <form id="complaintForm">
+                <label for="description">Complaint description</label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    minlength="10"
+                    maxlength="3000"
+                    placeholder="Example: Garbage has been accumulating near the public park for three days..."
+                    required
+                ></textarea>
+
+                <div class="form-footer">
+                    <small>10–3000 characters. Avoid including unnecessary personal information.</small>
+                    <button class="primary-button" id="analyzeButton" type="submit">
+                        Analyze Complaint →
+                    </button>
+                </div>
+            </form>
+
+            <div id="messageBox" class="message-box" hidden></div>
+            <div id="analysisResult" hidden></div>
+        </section>
+
+        <section class="panel complaints-panel" id="complaints">
+            <div class="panel-heading">
+                <div>
+                    <h3>Complaint Records</h3>
+                    <p>Review analyzed complaints and track their status.</p>
+                </div>
+
+                <button class="secondary-button" id="refreshButton">↻ Refresh</button>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>CASE</th>
+                            <th>COMPLAINT</th>
+                            <th>CATEGORY</th>
+                            <th>PRIORITY</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="complaintsTable">
+                        <tr>
+                            <td colspan="5" class="empty-state">Loading complaints...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer>
+            <span>CivicSense AI · Intelligent civic complaint management</span>
+            <span>AI-assisted decisions · Human-reviewed actions</span>
+        </footer>
+    </main>
+</body>
+</html>

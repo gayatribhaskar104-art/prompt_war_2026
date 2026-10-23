@@ -1,0 +1,20 @@
+venv/
+.env
+__pycache__/
+*.py[cod]
+civicsense.db
+# Environment variables and API keys
+.env
+
+# Python virtual environment
+venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Local database
+civicsense.db
+
+# Local development files
+.vscode/
